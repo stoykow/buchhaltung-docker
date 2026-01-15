@@ -1,0 +1,37 @@
+services:
+  db:
+    image: mariadb:10.11
+    container_name: buchhaltung-db
+    restart: always
+    env_file: .env
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+    volumes:
+      - /srv/docker/buchhaltung/data/db:/var/lib/mysql
+      - /srv/docker/buchhaltung/app/my.cnf:/etc/mysql/my.cnf
+
+  app:
+    build: .
+    container_name: buchhaltung-app
+    restart: always
+    depends_on:
+      - db
+    volumes:
+      - /srv/docker/buchhaltung/data/htdocs:/var/www/html
+      - ./php.ini:/usr/local/etc/php/php.ini
+    ports:
+      - "11000:80"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: buchhaltung-phpmyadmin
+    restart: always
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+    ports:
+      - "11001:80"
