@@ -21,6 +21,7 @@ services:
     volumes:
       - /srv/docker/buchhaltung/data/htdocs:/var/www/html
       - ./php.ini:/usr/local/etc/php/php.ini
+      - /srv/docker/buchhaltung/data/backup:/srv/backup
     ports:
       - "11000:80"
 
