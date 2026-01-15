@@ -33,5 +33,6 @@ services:
       - db
     environment:
       PMA_HOST: db
+      PMA_ABSOLUTE_URI: https://buhadb.nik0.internal/
     ports:
       - "11001:80"
