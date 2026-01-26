@@ -40,4 +40,4 @@ services:
       PMA_HOST: db
       PMA_ABSOLUTE_URI: https://buhadb.nik0.internal/
     ports:
-      - "27701:80"
+      - "28701:80"
