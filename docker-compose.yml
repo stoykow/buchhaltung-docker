@@ -28,7 +28,7 @@ services:
       - ./php.ini:/usr/local/etc/php/php.ini
       - /srv/docker/buchhaltung/data/backup:/srv/backup
     ports:
-      - "11000:80"
+      - "28700:80"
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
@@ -40,4 +40,4 @@ services:
       PMA_HOST: db
       PMA_ABSOLUTE_URI: https://buhadb.nik0.internal/
     ports:
-      - "11001:80"
+      - "27701:80"
