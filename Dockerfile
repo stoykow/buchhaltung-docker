@@ -25,5 +25,8 @@ COPY composer.json composer.lock* ./
 
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-interaction || true
 
-# Falls kein composer.json existiert, direkt PHPMailer holen
-RUN COMPOSER_ALLOW_SUPERUSER=1 composer require phpmailer/phpmailer --no-interaction
+# Falls kein composer.json existiert, direkt Abhängigkeiten holen
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer require \
+      phpmailer/phpmailer \
+      horstoeko/zugferd \
+      --no-interaction
