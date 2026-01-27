@@ -50,5 +50,25 @@ services:
     ports:
       - "28701:80"
 
+  pdfocr:
+    image: python:slim
+    container_name: buchhaltung-ocr
+    working_dir: /app
+    volumes:
+      - /srv/docker/buchhaltung/ocr:/app
+    command: >
+      sh -c "
+      apt-get update &&
+      apt-get install -y tesseract-ocr tesseract-ocr-deu poppler-utils &&
+      pip install --upgrade pip &&
+      pip install pdf2image pytesseract pillow flask &&
+      python app.py
+      "
+    ports:
+      - "6600:6600"
+    restart: unless-stopped
+    environment:
+      - TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata/
+
 volumes:
   buchhaltung-vendor:
