@@ -20,13 +20,15 @@ RUN php -r "copy('https://getcomposer.org/installer','/tmp/composer.php');" \
 
 WORKDIR /var/www/html
 
-# Falls composer.json im Projekt existiert
-COPY composer.json composer.lock* ./
+# App-Quellcode kopieren (inkl. optionaler composer.json)
+COPY . ./
 
-RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-interaction || true
-
-# Falls kein composer.json existiert, direkt Abhängigkeiten holen
-RUN COMPOSER_ALLOW_SUPERUSER=1 composer require \
-      phpmailer/phpmailer \
-      horstoeko/zugferd \
-      --no-interaction
+# Abhängigkeiten installieren: vorhandene composer.json nutzen, sonst Standardpakete holen
+RUN if [ -f composer.json ]; then \
+      COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-interaction; \
+    else \
+      COMPOSER_ALLOW_SUPERUSER=1 composer require \
+        phpmailer/phpmailer \
+        horstoeko/zugferd \
+        --no-interaction; \
+    fi
