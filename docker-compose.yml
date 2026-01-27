@@ -32,6 +32,7 @@ services:
       - db
     volumes:
       - /srv/docker/buchhaltung/data/htdocs:/var/www/html
+      - buchhaltung-vendor:/var/www/html/vendor
       - ./php.ini:/usr/local/etc/php/php.ini
       - /srv/docker/buchhaltung/data/backup:/srv/backup
     ports:
@@ -48,3 +49,6 @@ services:
       PMA_ABSOLUTE_URI: https://buhadb.nik0.internal/
     ports:
       - "28701:80"
+
+volumes:
+  buchhaltung-vendor:
