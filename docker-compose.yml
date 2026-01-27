@@ -64,8 +64,8 @@ services:
       pip install pdf2image pytesseract pillow flask &&
       python app.py
       "
-    ports:
-      - "6600:6600"
+    # ports:
+    #  - "6600:6600"
     restart: unless-stopped
     environment:
       - TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata/
