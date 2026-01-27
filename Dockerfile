@@ -23,12 +23,9 @@ WORKDIR /var/www/html
 # App-Quellcode kopieren (inkl. optionaler composer.json)
 COPY . ./
 
-# Abhängigkeiten installieren: vorhandene composer.json nutzen, sonst Standardpakete holen
-RUN if [ -f composer.json ]; then \
-      COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-interaction; \
-    else \
-      COMPOSER_ALLOW_SUPERUSER=1 composer require \
-        phpmailer/phpmailer \
-        horstoeko/zugferd \
-        --no-interaction; \
-    fi
+# Entry point für Abhängigkeiten beim Start (wichtig bei Volume-Mounts)
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["apache2-foreground"]
