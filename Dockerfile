@@ -13,9 +13,17 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 
 RUN a2enmod rewrite
 
-# Composer installieren
+# Composer
 RUN php -r "copy('https://getcomposer.org/installer','/tmp/composer.php');" \
  && php /tmp/composer.php --install-dir=/usr/local/bin --filename=composer \
  && rm -f /tmp/composer.php
 
 WORKDIR /var/www/html
+
+# Falls composer.json im Projekt existiert
+COPY composer.json composer.lock* ./
+
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-interaction || true
+
+# Falls kein composer.json existiert, direkt PHPMailer holen
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer require phpmailer/phpmailer --no-interaction
