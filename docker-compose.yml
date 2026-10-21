@@ -38,7 +38,7 @@ services:
       - "28700:80"
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
+    image: phpmyadmin:latest
     container_name: buchhaltung-phpmyadmin
     restart: always
     depends_on:
